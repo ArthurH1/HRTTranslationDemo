@@ -50,9 +50,10 @@ function main(params) {
 
       // pick the language with the highest confidence, and send it back
       resolve({
-        statusCode: 501,
+        statusCode: 200,
         body: {
-          translations: params,
+          detection: params.body,
+          translations: "None...",
           words: 1,
           characters: 11,
         },

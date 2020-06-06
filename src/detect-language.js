@@ -58,10 +58,9 @@ function main(params) {
         text: "Rise and Shine, Mr. Freeman.."
       };
 
-      
-      languageTranslator.identify(identifyParams)
+      if(identifyParams.text){
+        languageTranslator.identify(identifyParams)
         .then(identifiedLanguages => {
-          console.log("We succeded!");
           resolve({
             statusCode: 200,
             body: {
@@ -73,20 +72,27 @@ function main(params) {
           });
         })
         .catch(err => {
-          console.log("BAD, VERY BAD!");
           console.log('error:', err);
 
           resolve({
             statusCode: 500,
             body: {
-              text: "THAT DIDN'T FUCKING WORK!!!",
-              text2: "I DIDN'T FUCKING ALLOW YOU TO RESOLVE THISSSSSSSSSSSSSSSSSSSS!!!"
+              text: "That didn't work",
             },
             headers: { 'Content-Type': 'application/json' }
           });
         });
+      } else {
+        resolve({
+          statusCode: 500,
+          body: {
+            text: "No text field in Parameters!",
+          },
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      
 
-        console.log("Done");
 
 
     } catch (err) {
