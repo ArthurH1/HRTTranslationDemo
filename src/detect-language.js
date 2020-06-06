@@ -54,11 +54,12 @@ function main(params) {
         url: 'https://api.eu-de.language-translator.watson.cloud.ibm.com/instances/a15c1a1e-21d0-48af-82e7-a859b98c7930',
       });
       
+      //TODO switch to params
       const identifyParams = {
-        text: "Rise and Shine, Mr. Freeman.."
+        text: "Tengo baño!"
       };
-
       if(identifyParams.text){
+        
         languageTranslator.identify(identifyParams)
         .then(identifiedLanguages => {
           resolve({
@@ -84,7 +85,7 @@ function main(params) {
         });
       } else {
         resolve({
-          statusCode: 500,
+          statusCode: 400,
           body: {
             text: "No text field in Parameters!",
           },
