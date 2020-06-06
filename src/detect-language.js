@@ -36,7 +36,6 @@ function main(params) {
   return new Promise(function (resolve, reject) {
 
     try {
-      
       // *******TODO**********
       // - Call the language identification API of the translation service
       // see: https://cloud.ibm.com/apidocs/language-translator?code=node#identify-language
@@ -46,16 +45,48 @@ function main(params) {
 
       // in case of errors during the call resolve with an error message according to the pattern 
       // found in the catch clause below
-
-      resolve({
-        statusCode: 200,
-        body: {
-          text: params.text, 
-          language: "<Best Language>",
-          confidence: 0.5,
-        },
-        headers: { 'Content-Type': 'application/json' }
+      
+      const languageTranslator = new LanguageTranslatorV3({
+        version: '2018-05-01',
+        authenticator: new IamAuthenticator({
+          apikey: 'anZY7RWMgf4XoiosyDOLAQ-COFjeAUoYqRcoIBXJkDIh',
+        }),
+        url: 'https://api.eu-de.language-translator.watson.cloud.ibm.com/instances/a15c1a1e-21d0-48af-82e7-a859b98c7930',
       });
+      
+      const identifyParams = {
+        text: "Rise and Shine, Mr. Freeman.."
+      };
+
+      
+      languageTranslator.identify(identifyParams)
+        .then(identifiedLanguages => {
+          console.log("We succeded!");
+          resolve({
+            statusCode: 200,
+            body: {
+              text: identifyParams.text,
+              language: identifiedLanguages.result.languages[0].language,
+              confidence: identifiedLanguages.result.languages[0].confidence,
+            },
+            headers: { 'Content-Type': 'application/json' }
+          });
+        })
+        .catch(err => {
+          console.log("BAD, VERY BAD!");
+          console.log('error:', err);
+
+          resolve({
+            statusCode: 500,
+            body: {
+              text: "THAT DIDN'T FUCKING WORK!!!",
+              text2: "I DIDN'T FUCKING ALLOW YOU TO RESOLVE THISSSSSSSSSSSSSSSSSSSS!!!"
+            },
+            headers: { 'Content-Type': 'application/json' }
+          });
+        });
+
+        console.log("Done");
 
 
     } catch (err) {
