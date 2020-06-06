@@ -77,10 +77,12 @@ function main(params) {
               statusCode: 200,
               body: {
                 detection: params.body,
-                translations: translationResult.result.translations,
-                targetLanguage: translateParams.target,
-                words: translationResult.result.word_count,
-                characters: translationResult.result.character_count
+                translation : {
+                  translations: translationResult.result.translations,
+                  language: translateParams.target,
+                  words: translationResult.result.word_count,
+                  characters: translationResult.result.character_count
+                },
               },
               headers: { 'Content-Type': 'application/json' }
             });

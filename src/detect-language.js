@@ -56,7 +56,7 @@ function main(params) {
       
       //TODO switch to params
       const identifyParams = {
-        text: "Tengo baño!"
+        text: "Test, this is a test. If the translator translates this into a correct translation, then it works."
       };
       if(identifyParams.text){
         
